@@ -9,6 +9,7 @@ lintfromserver = (socket, str, fname) ->
 
 doSomeMagic = (data,textEditor) ->
   filePath = textEditor.getPath()
+  inptext = textEditor.getText()
   linteroutput = [ ]
 
   lines = data.split("\n")
@@ -16,7 +17,7 @@ doSomeMagic = (data,textEditor) ->
     try
       splittedline = line.split(":")
       numbers = splittedline[1].split(" ")
-      row_number = parseInt(numbers[0],10)
+      row_number = parseInt(numbers[0],10) - 1
       severity = (numbers[1])[0]
       if severity.match("I")
         type = "Info"
@@ -24,8 +25,8 @@ doSomeMagic = (data,textEditor) ->
         type = "Warning"
       else
         type = "Error"
-      text = splittedline[1] + ":" + splittedline[2]
-      range = [[row_number - 1, 0], [row_number - 1,1]]
+      text = numbers[1] + ":" + splittedline[2]
+      range = [[row_number, 0], [row_number,1]]
       fullmsg = {
         type
         text
