@@ -78,8 +78,6 @@ module.exports =
           connection.on('error',reject)
           connection.on 'data', (chunk) ->
             data.push(chunk)
-            #if chunk.asciiSlice().match("\n\n")
-            #  connection.destroy()
           connection.on 'close', () ->
             allOfData = data.join('')
             resolve(doSomeMagic(allOfData,textEditor))
