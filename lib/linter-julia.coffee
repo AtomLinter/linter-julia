@@ -1,4 +1,9 @@
 net = require 'net'
+{spawn} = require 'child_process'
+
+sleep = (ms) ->
+  start = new Date().getTime()
+  continue while new Date().getTime() - start < ms
 
 lintfromserver = (socket, str, fname) ->
   # This plus one probably because Julia starts index from 1
@@ -54,8 +59,7 @@ module.exports =
       description: "julia -e \"using Lint; lintserver(2223)\""
       order: 2
   activate: ->
-    #lintserver = spawn 'julia', ['-e \"using Lint; lintserver(2223)\"']
-    #require('atom-package-deps').install('linter-julia')
+    spawn 'julia', ['-e', 'using Lint; lintserver(2223)']
 
   provideLinter: ->
     provider =
