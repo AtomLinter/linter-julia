@@ -65,11 +65,12 @@ module.exports =
   activate: ->
     tempfil = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
     if process.platform == 'win32'
-      tmpstr = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
-      global.named_pipe = tmpstr.replace(/\\/g,"\\\\")
+      global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
+      pipetospawn = named_pipe.replace(/\\/g,"\\\\")
+      jcode = "using Lint; lintserver(\"#{pipetospawn}\")"
     else
       global.named_pipe = tempfil
-    jcode = "using Lint; lintserver(\"#{named_pipe}\")"
+      jcode = "using Lint; lintserver(\"#{named_pipe}\")"
     console.log jcode
     jserver = spawn atom.config.get('linter-julia.julia'), ['-e', jcode]
     jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
@@ -77,7 +78,8 @@ module.exports =
 
   deactivate: ->
     # Removes the socket when shutting down
-    fs.unlinkSync(named_pipe)
+    if process.platform != 'win32'
+      fs.unlinkSync(named_pipe)
 
   provideLinter: ->
     provider =
