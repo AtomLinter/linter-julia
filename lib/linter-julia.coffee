@@ -65,7 +65,8 @@ module.exports =
   activate: ->
     tempfil = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
     if process.platform == 'win32'
-      global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
+      tmpstr = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
+      global.named_pipe = tmpstr.replace(/\\/g,"\\\\")
     else
       global.named_pipe = tempfil
     jcode = "using Lint; lintserver(\"#{named_pipe}\")"
