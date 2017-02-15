@@ -63,10 +63,12 @@ module.exports =
       order: 2
 
   activate: ->
-    global.named_pipe = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
-    jcode = "using Lint; lintserver(\"#{named_pipe}\")"
+    tempfil = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
     if process.platform == 'win32'
-      jcode = jcode.replace(/\\/g,"\\\\")
+      global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
+    else
+      global.named_pipe = tempfil
+    jcode = "using Lint; lintserver(\"#{named_pipe}\")"
     console.log jcode
     jserver = spawn atom.config.get('linter-julia.julia'), ['-e', jcode]
     jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
