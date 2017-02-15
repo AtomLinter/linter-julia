@@ -5,7 +5,7 @@ This linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides
 an interface to [Lint.jl](https://github.com/tonyhffong/Lint.jl). It will be
 used with files that have the “Julia” syntax.
 
-![screenshot](https://github.com/TeroFrondelius/linter-julia/blob/master/Screenshot.gif)
+![screenshot](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/Screenshot.gif)
 
 ## Installation
 Install package through Atom or use CLI:
