@@ -53,11 +53,22 @@ module.exports =
                     is used, meaning column end is 80. To get back to the
                     previous behavior change the column end to 1"
       order: 1
+    julia:
+      title: 'Julia executable location'
+      type: 'string'
+      default: 'julia'
+      description: "Insert here the path to the julia.exe, which one you want
+        to use. For example:
+        C:\\Users\\Julia\\AppData\\Local\\Julia-0.5.0\\bin\\julia.exe"
+      order: 2
+
   activate: ->
     global.named_pipe = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
     jcode = "using Lint; lintserver(\"#{named_pipe}\")"
+    if process.platform == 'win32'
+      jcode = jcode.replace(/\\/g,"\\\\")
     console.log jcode
-    jserver = spawn 'julia', ['-e', jcode]
+    jserver = spawn atom.config.get('linter-julia.julia'), ['-e', jcode]
     jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
     jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
 
