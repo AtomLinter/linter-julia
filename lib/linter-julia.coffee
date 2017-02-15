@@ -1,9 +1,7 @@
 net = require 'net'
 {spawn} = require 'child_process'
-
-sleep = (ms) ->
-  start = new Date().getTime()
-  continue while new Date().getTime() - start < ms
+tmp = require('tmp')
+fs = require('fs')
 
 lintfromserver = (socket, str, fname) ->
   # This plus one probably because Julia starts index from 1
@@ -15,6 +13,7 @@ lintfromserver = (socket, str, fname) ->
 doSomeMagic = (data,textEditor) ->
   filePath = textEditor.getPath()
   inptext = textEditor.getText()
+  column = parseInt(atom.config.get('linter-julia.column'),10)
   linteroutput = [ ]
 
   lines = data.split("\n")
@@ -31,7 +30,7 @@ doSomeMagic = (data,textEditor) ->
       else
         type = "Error"
       text = numbers[1] + ":" + splittedline[2]
-      range = [[row_number, 0], [row_number,1]]
+      range = [[row_number, 0], [row_number, column]]
       fullmsg = {
         type
         text
@@ -46,20 +45,25 @@ doSomeMagic = (data,textEditor) ->
 
 module.exports =
   config:
-    linterjuliaport:
-      title: 'Julia Lint Server Port'
+    column:
+      title: 'Error message column end, the column start is 0'
       type: 'string'
-      default: '2223'
-      description: "julia -e \"using Lint; lintserver(2223)\""
+      default: '80'
+      description: "Lint.jl doesn't return the error column, thus the whole line
+                    is used, meaning column end is 80. To get back to the
+                    previous behavior change the column end to 1"
       order: 1
-    linterjuliadomain:
-      title: 'Julia Lint Server Domain'
-      type: 'string'
-      default: 'localhost'
-      description: "julia -e \"using Lint; lintserver(2223)\""
-      order: 2
   activate: ->
-    spawn 'julia', ['-e', 'using Lint; lintserver(2223)']
+    global.named_pipe = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
+    jcode = "using Lint; lintserver(\"#{named_pipe}\")"
+    console.log jcode
+    jserver = spawn 'julia', ['-e', jcode]
+    jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
+    jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
+
+  deactivate: ->
+    # Removes the socket when shutting down
+    fs.unlinkSync(named_pipe)
 
   provideLinter: ->
     provider =
@@ -68,9 +72,7 @@ module.exports =
       scope: 'file'
       lintOnFly: true
       lint: (textEditor)->
-        port = parseInt(atom.config.get('linter-julia.linterjuliaport'),10)
-        domain = atom.config.get('linter-julia.linterjuliadomain')
-        connection = net.createConnection(port, domain)
+        connection = net.createConnection(named_pipe)
 
         return new Promise (resolve, reject) ->
           data = []
