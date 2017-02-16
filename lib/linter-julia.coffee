@@ -39,7 +39,10 @@ doSomeMagic = (data,textEditor) ->
       }
       linteroutput.push(fullmsg)
 
-    catch TypeError
+    catch e
+      if e.message != "Cannot read property 'split' of undefined"
+        console.log e
+
   linteroutput
 
 
@@ -56,13 +59,18 @@ module.exports =
     julia:
       title: 'Julia executable location'
       type: 'string'
-      default: 'julia'
+      default: 'get_from_Juno'
       description: "Insert here the path to the julia.exe, which one you want
         to use. For example:
         C:\\Users\\Julia\\AppData\\Local\\Julia-0.5.0\\bin\\julia.exe"
       order: 2
 
   activate: ->
+    if atom.config.get('linter-julia.julia') != 'get_from_Juno'
+      julia = atom.config.get('linter-julia.julia')
+    else
+      julia = atom.config.get('julia-client.juliaPath')
+
     tempfil = tmp.tmpNameSync({ prefix:'lintserver',postfix: 'sock'})
     if process.platform == 'win32'
       global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
@@ -71,8 +79,8 @@ module.exports =
     else
       global.named_pipe = tempfil
       jcode = "using Lint; lintserver(\"#{named_pipe}\")"
-    console.log jcode
-    jserver = spawn atom.config.get('linter-julia.julia'), ['-e', jcode]
+
+    jserver = spawn julia, ['-e', jcode]
     jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
     jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
 
