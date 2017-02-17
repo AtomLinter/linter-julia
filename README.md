@@ -21,6 +21,10 @@ see: https://github.com/tonyhffong/Lint.jl#installation
 
 Before Lint.jl version 0.2.6 is released you will need to do `Pkg.checkout("Lint")`
 after `Pkg.add("Lint")` command. This will use the latest development version of
-Lint.jl package. After the version 0.2.6 is realeased you can do `Pkg.free("Lint")`
+Lint.jl package. After the version 0.2.6 is released you can do `Pkg.free("Lint")`
+
+## Features
+* By default linter-julia uses Juno's julia
+* User can give path to the julia, which they want to use for Linting
 
 Issues and pull request are welcome.

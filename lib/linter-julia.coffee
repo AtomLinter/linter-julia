@@ -57,12 +57,13 @@ module.exports =
                     previous behavior change the column end to 1"
       order: 1
     julia:
-      title: 'Julia executable location'
+      title: 'Julia executable location, by default this comes from Juno'
       type: 'string'
       default: 'get_from_Juno'
       description: "Insert here the path to the julia.exe, which one you want
-        to use. For example:
-        C:\\Users\\Julia\\AppData\\Local\\Julia-0.5.0\\bin\\julia.exe"
+        to use. For example:\n In Windows:
+        C:\\Users\\Julia\\AppData\\Local\\Julia-0.5.0\\bin\\julia.exe\n
+        In Linux: /usr/bin/julia"
       order: 2
 
   activate: ->
