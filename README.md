@@ -1,5 +1,5 @@
 # linter-julia
-=========================
+==============
 
 This linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides
 an interface to [Lint.jl](https://github.com/tonyhffong/Lint.jl). It will be
@@ -31,4 +31,5 @@ After the version 0.2.6 is realeased, you can do `Pkg.free("Lint")`.
 * User can give path to the julia, which they want to use for Linting
 
 
-Issues and pull request are welcome.
+[Issues](https://github.com/JuliaFEM/JuliaFEM.jl/issues) and [pull request]
+(https://github.com/JuliaFEM/JuliaFEM.jl/pulls) are welcome.

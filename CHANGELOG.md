@@ -1,3 +1,6 @@
+## 0.2.2 - JunoDocs page added
+* http://docs.junolab.org/
+
 ## 0.2.1 - patches documentation
 * CHANGELOG.md updated
 * Settings descriptions clarified
