@@ -21,6 +21,8 @@ doSomeMagic = (data,textEditor) ->
     try
       splittedline = line.split(":")
       numbers = splittedline[1].split(" ")
+      if numbers[1] in ignore
+        continue
       row_number = parseInt(numbers[0],10) - 1
       severity = (numbers[1])[0]
       if severity.match("I")
@@ -65,8 +67,17 @@ module.exports =
         C:\\Users\\Julia\\AppData\\Local\\Julia-0.5.0\\bin\\julia.exe\n
         In Linux: /usr/bin/julia"
       order: 2
+    ignore:
+      title: 'List of ignored Lint codes'
+      type: 'string'
+      default: ''
+      description: "Some times you want to ignore some of the lint messages.
+                    Give here the ignored error codes in a format:
+                    E321 W361 I171"
+      order: 3
 
   activate: ->
+    global.ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
       julia = atom.config.get('linter-julia.julia')
     else

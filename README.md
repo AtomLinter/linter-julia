@@ -29,6 +29,7 @@ After the version 0.2.6 is realeased, you can do `Pkg.free("Lint")`.
 ## Features
 * By default linter-julia uses Juno's julia
 * User can give path to the julia, which they want to use for Linting
+* Ignore the messages you don't need
 
 
 [Issues](https://github.com/JuliaFEM/JuliaFEM.jl/issues) and [pull request]

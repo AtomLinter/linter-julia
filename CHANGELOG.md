@@ -1,3 +1,6 @@
+## 0.3.0 - Ignore codes
+* Added a setting to ignore error messages
+
 ## 0.2.2 - JunoDocs page added
 * http://docs.junolab.org/
 
