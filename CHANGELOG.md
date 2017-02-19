@@ -1,3 +1,6 @@
+## 0.3.1 - Adding linter as a dependency in package.json
+* Adding linter as a dependency in package.json
+
 ## 0.3.0 - Ignore codes
 * Added a setting to ignore error messages
 
