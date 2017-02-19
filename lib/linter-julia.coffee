@@ -103,6 +103,7 @@ module.exports =
       order: 6
 
   activate: ->
+    require('atom-package-deps').install('linter-julia', true)
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
       julia = atom.config.get('linter-julia.julia')
     else

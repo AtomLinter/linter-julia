@@ -1,3 +1,6 @@
+## 0.5.1 - Fixing the linter dependency
+* Fixing issue #25
+
 ## 0.5.0 - Possibility to turn off the Error codes from the message
 * Adding setting to not show the error codes in the message
 
