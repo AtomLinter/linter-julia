@@ -1,3 +1,6 @@
+## 0.5.0 - Possibility to turn off the Error codes from the message
+* Adding setting to not show the error codes in the message
+
 ## 0.4.0 - Settings to ignore infos and warnings
 * Adding Settings to ignore infos and warnings
 

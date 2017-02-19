@@ -17,6 +17,7 @@ doSomeMagic = (data,textEditor) ->
   ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
   ignorewarning = atom.config.get('linter-julia.ignorewarning')
   ignoreinfo = atom.config.get('linter-julia.ignoreinfo')
+  showErrorcode = atom.config.get('linter-julia.showErrorcode')
   linteroutput = [ ]
 
   lines = data.split("\n")
@@ -38,7 +39,10 @@ doSomeMagic = (data,textEditor) ->
           continue
       else
         type = "Error"
-      text = numbers[1] + ":" + splittedline[2]
+      if showErrorcode
+        text = numbers[1] + ":" + splittedline[2]
+      else
+        text = splittedline[2]
       range = [[row_number, 0], [row_number, column]]
       fullmsg = {
         type
@@ -92,6 +96,11 @@ module.exports =
       type: 'boolean'
       default: false
       order: 5
+    showErrorcode:
+      title: "Show the Error codes i.e. E321 in the message"
+      type: 'boolean'
+      default: true
+      order: 6
 
   activate: ->
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
