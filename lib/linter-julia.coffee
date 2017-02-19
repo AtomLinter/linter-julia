@@ -14,6 +14,9 @@ doSomeMagic = (data,textEditor) ->
   filePath = textEditor.getPath()
   inptext = textEditor.getText()
   column = parseInt(atom.config.get('linter-julia.column'),10)
+  ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
+  ignorewarning = atom.config.get('linter-julia.ignorewarning')
+  ignoreinfo = atom.config.get('linter-julia.ignoreinfo')
   linteroutput = [ ]
 
   lines = data.split("\n")
@@ -27,8 +30,12 @@ doSomeMagic = (data,textEditor) ->
       severity = (numbers[1])[0]
       if severity.match("I")
         type = "Info"
+        if ignoreinfo
+          continue
       else if severity.match("W")
         type = "Warning"
+        if ignorewarning
+          continue
       else
         type = "Error"
       text = numbers[1] + ":" + splittedline[2]
@@ -75,9 +82,18 @@ module.exports =
                     Give here the ignored error codes in a format:
                     E321 W361 I171"
       order: 3
+    ignorewarning:
+      title: "Don't show warnings"
+      type: 'boolean'
+      default: false
+      order: 4
+    ignoreinfo:
+      title: "Don't show infos"
+      type: 'boolean'
+      default: false
+      order: 5
 
   activate: ->
-    global.ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
       julia = atom.config.get('linter-julia.julia')
     else

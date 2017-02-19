@@ -1,3 +1,6 @@
+## 0.4.0 - Settings to ignore infos and warnings
+* Adding Settings to ignore infos and warnings
+
 ## 0.3.1 - Adding linter as a dependency in package.json
 * Adding linter as a dependency in package.json
 
