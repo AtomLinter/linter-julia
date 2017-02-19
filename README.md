@@ -32,5 +32,5 @@ After the version 0.2.6 is realeased, you can do `Pkg.free("Lint")`.
 * Ignore the messages you don't need
 
 
-[Issues](https://github.com/JuliaFEM/JuliaFEM.jl/issues) and [pull request]
-(https://github.com/JuliaFEM/JuliaFEM.jl/pulls) are welcome.
+[Issues](https://github.com/TeroFrondelius/linter-julia.jl/issues) and [pull requests]
+(https://github.com/TeroFrondelius/linter-julia.jl/pulls) are welcome.
