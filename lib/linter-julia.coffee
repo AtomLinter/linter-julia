@@ -39,10 +39,12 @@ doSomeMagic = (data,textEditor) ->
           continue
       else
         type = "Error"
+
+
       if showErrorcode
-        text = numbers[1] + ":" + splittedline[2]
+        text = numbers[1] + " " + numbers[2] + ":" + splittedline[2]
       else
-        text = splittedline[2]
+        text = numbers[2] + ":" + splittedline[2]
       range = [[row_number, 0], [row_number, column]]
       fullmsg = {
         type

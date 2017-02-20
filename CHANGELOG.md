@@ -1,3 +1,6 @@
+## 0.5.2 - Display the LintMessage variable
+* Fixing issue #29
+
 ## 0.5.1 - Fixing the linter dependency
 * Fixing issue #25
 
