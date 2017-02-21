@@ -144,7 +144,6 @@ module.exports =
             inptext = textEditor.getText()
             filePath = textEditor.getPath()
             lintfromserver(connection, inptext, filePath)
-            connection.end()
           connection.on('error',reject)
           connection.on 'data', (chunk) ->
             data.push(chunk)

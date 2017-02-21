@@ -1,3 +1,6 @@
+## 0.5.3 - Fixing issue #20
+* Fixing issue #20
+
 ## 0.5.2 - Display the LintMessage variable
 * Fixing issue #29
 
