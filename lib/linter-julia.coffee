@@ -83,9 +83,9 @@ module.exports =
               'ignore_info': atom.config.get('linter-julia.ignoreinfo'),
               'show_code': atom.config.get('linter-julia.showErrorcode')
             }
-            connection.write JSON.stringify(json_input) + "\n"
+            connection.write JSON.stringify(json_input)
           connection.on('error',reject)
           connection.on 'data', (chunk) ->
             data.push(chunk)
           connection.on 'close', () ->
-            resolve(JSON.parse(data))
+            resolve(JSON.parse(data.join('')))
