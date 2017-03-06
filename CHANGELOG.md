@@ -1,3 +1,7 @@
+
+## 0.5.4 - Adding Settings section to README
+* Fixing issues #32 and #33
+
 ## 0.5.3 - Fixing issue #20
 * Fixing issue #20
 

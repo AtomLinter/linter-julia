@@ -13,6 +13,9 @@ Install package through Atom or use CLI:
 ```bash
 $ apm install linter-julia
 ```
+Note: if you have't installed [Juno](http://junolab.org/), you need to tell
+linter-julia your julia executable location (i.e. `/usr/bin/julia`). See
+Settings below.
 
 In order to use this package, you will need to install Julia and Lint.jl
 (version 0.2.6 or higher).
@@ -25,12 +28,19 @@ you will need to do `Pkg.checkout("Lint")` after `Pkg.add("Lint")` command.
 This will use the latest development version of the Lint.jl package.
 After the version 0.2.6 is realeased, you can do `Pkg.free("Lint")`.
 
+## Settings
+
+![screenshot](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/settings.png)
 
 ## Features
+
 * By default linter-julia uses Juno's julia
 * User can give path to the julia, which they want to use for Linting
 * Ignore the messages you don't need
 
-
 [Issues](https://github.com/TeroFrondelius/linter-julia/issues) and [pull requests]
 (https://github.com/TeroFrondelius/linter-julia/pulls) are welcome.
+
+## CHANGELOG
+
+[See the full CHANGELOG here.](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/CHANGELOG.md)
