@@ -1,3 +1,9 @@
+## 0.6.0 - Major change in package to start using the JSON format
+* All the magic moves to Lint.jl package
+* JSON is used in both way communications
+* This simplifies this package code a lot
+* Answers to issue #4
+
 ## 0.5.5 - Fix parsing of Lint error message on windows
 * Thanks @samtkaplan for the effort
 
