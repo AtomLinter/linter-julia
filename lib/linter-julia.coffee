@@ -25,7 +25,7 @@ doSomeMagic = (data,textEditor) ->
     try
       splittedline = line.replace(filePath+":","").split(":")
       numbers = splittedline[0].split(" ")
-      if numbers[1] in ignore
+      if numbers.length < 2 || numbers[1] in ignore
         continue
       row_number = parseInt(numbers[0],10) - 1
       severity = (numbers[1])[0]
