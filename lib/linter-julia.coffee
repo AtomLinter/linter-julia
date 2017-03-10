@@ -49,10 +49,12 @@ module.exports =
     if process.platform == 'win32'
       global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
       pipetospawn = named_pipe.replace(/\\/g,"\\\\")
-      jcode = "using Lint;lintserver(\"#{pipetospawn}\",\"standard-linter-v1\")"
+      jcode = "Pkg.installed(\"Lint\") > v\"0.2.5\" || Pkg.add(\"Lint\");" +
+              "using Lint;lintserver(\"#{pipetospawn}\",\"standard-linter-v1\")"
     else
       global.named_pipe = tempfil
-      jcode = "using Lint; lintserver(\"#{named_pipe}\",\"standard-linter-v1\")"
+      jcode = "Pkg.installed(\"Lint\") > v\"0.2.5\" || Pkg.add(\"Lint\");" +
+              "using Lint; lintserver(\"#{named_pipe}\",\"standard-linter-v1\")"
 
     jserver = spawn julia, ['-e', jcode]
     jserver.stdout.on 'data', (data) -> console.log data.toString().trim()

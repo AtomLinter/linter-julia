@@ -1,3 +1,7 @@
+## 0.7.0 - Install Lint.jl automatically
+* See issue #30
+* linter-julia checks if Lint.jl is installed and if not runs Pkg.add("Lint")
+
 ## 0.6.0 - Major change in package to start using the JSON format
 * All the magic moves to Lint.jl package
 * JSON is used in both way communications
