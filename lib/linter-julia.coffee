@@ -23,8 +23,8 @@ doSomeMagic = (data,textEditor) ->
   lines = data.split("\n")
   for line in lines
     try
-      splittedline = line.split(":")
-      numbers = splittedline[1].split(" ")
+      splittedline = line.replace(filePath+":","").split(":")
+      numbers = splittedline[0].split(" ")
       if numbers[1] in ignore
         continue
       row_number = parseInt(numbers[0],10) - 1
