@@ -1,3 +1,5 @@
+## 0.5.5 - Fix parsing of Lint error message on windows
+* Thanks @samtkaplan for the effort
 
 ## 0.5.4 - Adding Settings section to README
 * Fixing issues #32 and #33

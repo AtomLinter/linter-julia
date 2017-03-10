@@ -43,4 +43,4 @@ After the version 0.2.6 is realeased, you can do `Pkg.free("Lint")`.
 
 ## CHANGELOG
 
-[See the full CHANGELOG here.](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/CHANGELOG.md)
+[See the full CHANGELOG here.](https://github.com/TeroFrondelius/linter-julia/blob/master/CHANGELOG.md)
