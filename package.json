@@ -1,7 +1,7 @@
 {
   "name": "linter-julia",
   "main": "./lib/linter-julia",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
     "Julia",
