@@ -1,3 +1,6 @@
+## 0.7.1 - Some clarification to README.md
+* Thanks @waldyrious for the effort 
+
 ## 0.7.0 - Install Lint.jl automatically
 * See issue #30
 * linter-julia checks if Lint.jl is installed and if not runs Pkg.add("Lint")
