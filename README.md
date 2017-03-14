@@ -19,7 +19,7 @@ you need to tell linter-julia where to find the julia executable
 (i.e. `/usr/bin/julia`). See Settings below.
 
 In order to use this package, you will need to install Julia and Lint.jl
-(version 0.2.6 or higher).
+(version m.0 or higher).
 To get Julia see: http://julialang.org/downloads/ and to get Lint.jl
 see: https://github.com/tonyhffong/Lint.jl#installation
 
