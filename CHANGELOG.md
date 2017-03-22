@@ -1,5 +1,9 @@
+## 0.7.2 - static linter version 1.11.21
+* This tries to fix #38
+* Also installation instructions updated, thanks @waldyrious
+
 ## 0.7.1 - Some clarification to README.md
-* Thanks @waldyrious for the effort 
+* Thanks @waldyrious for the effort
 
 ## 0.7.0 - Install Lint.jl automatically
 * See issue #30

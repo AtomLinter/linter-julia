@@ -20,7 +20,7 @@
     "atom-package-deps": "^4.0.1"
   },
   "package-deps": [
-    "linter"
+    "linter:1.11.21"
   ],
   "providedServices": {
     "linter": {
