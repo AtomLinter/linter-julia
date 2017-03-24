@@ -2,6 +2,7 @@ net = require 'net'
 {spawn} = require 'child_process'
 tmp = require('tmp')
 fs = require('fs')
+path = require 'path'
 
 module.exports =
   config:
@@ -39,6 +40,7 @@ module.exports =
       order: 5
 
   activate: ->
+    global.lintserverisrunning = false
     require('atom-package-deps').install('linter-julia', true)
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
       julia = atom.config.get('linter-julia.julia')
@@ -48,16 +50,17 @@ module.exports =
     tempfil = tmp.tmpNameSync({ prefix:'lintserver', postfix: 'sock'})
     if process.platform == 'win32'
       global.named_pipe = '\\\\.\\pipe\\' + tempfil.split("\\").pop()
-      pipetospawn = named_pipe.replace(/\\/g,"\\\\")
-      jcode = "Pkg.installed(\"Lint\") > v\"0.2.5\" || Pkg.add(\"Lint\");" +
-              "using Lint;lintserver(\"#{pipetospawn}\",\"standard-linter-v1\")"
     else
       global.named_pipe = tempfil
-      jcode = "Pkg.installed(\"Lint\") > v\"0.2.5\" || Pkg.add(\"Lint\");" +
-              "using Lint; lintserver(\"#{named_pipe}\",\"standard-linter-v1\")"
 
-    jserver = spawn julia, ['-e', jcode]
-    jserver.stdout.on 'data', (data) -> console.log data.toString().trim()
+    scriptfile = path.join(__dirname, 'startlintserver.jl'  )
+    jserver = spawn julia, [scriptfile, named_pipe]
+    result = ''
+    jserver.stdout.on 'data', (data) ->
+      result += data.toString().trim()
+      if /Server running on port/.test(result)
+        global.lintserverisrunning = true
+      console.log data.toString().trim()
     jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
 
   deactivate: ->
@@ -72,22 +75,23 @@ module.exports =
       scope: 'file'
       lintOnFly: true
       lint: (textEditor)->
-        connection = net.createConnection(named_pipe)
-        return new Promise (resolve, reject) ->
-          data = []
-          connection.on 'connect', () ->
-            ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
-            json_input = {
-              'file': textEditor.getPath(),
-              'code_str': textEditor.getText(),
-              'ignore_codes': ignore,
-              'ignore_warnings': atom.config.get('linter-julia.ignorewarning'),
-              'ignore_info': atom.config.get('linter-julia.ignoreinfo'),
-              'show_code': atom.config.get('linter-julia.showErrorcode')
-            }
-            connection.write JSON.stringify(json_input)
-          connection.on('error',reject)
-          connection.on 'data', (chunk) ->
-            data.push(chunk)
-          connection.on 'close', () ->
-            resolve(JSON.parse(data.join("")))
+        if lintserverisrunning
+          connection = net.createConnection(named_pipe)
+          return new Promise (resolve, reject) ->
+            data = []
+            connection.on 'connect', () ->
+              ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
+              json_input = {
+                'file': textEditor.getPath(),
+                'code_str': textEditor.getText(),
+                'ignore_codes': ignore,
+                'ignore_warnings':atom.config.get('linter-julia.ignorewarning'),
+                'ignore_info': atom.config.get('linter-julia.ignoreinfo'),
+                'show_code': atom.config.get('linter-julia.showErrorcode')
+              }
+              connection.write JSON.stringify(json_input)
+            connection.on('error',reject)
+            connection.on 'data', (chunk) ->
+              data.push(chunk)
+            connection.on 'close', () ->
+              resolve(JSON.parse(data.join("")))
