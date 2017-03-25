@@ -9,28 +9,21 @@ lint = LinterJulia.provideLinter().lint
 validfile = path.join(__dirname, 'testdata', 'validfile.jl')
 E321 = path.join(__dirname, 'testdata', 'E321.jl')
 
-describe "LinterJulia", ->
-  [workspaceElement, activationPromise] = []
-
-  beforeEach ->
-    atom.workspace.destroyActivePaneItem()
-    waitsForPromise ->
-      atom.packages.activatePackage('linter-julia')
-      return atom.packages.activatePackage('language-julia').then () ->
-        console.log lint(atom.workspace.open(validfile))
-
-  describe "when the linter-julia lints a file", ->
-    editor = null
+describe "The linter-julia provider for linter", ->
+  describe "works with Julia fileas and", ->
     beforeEach ->
+      activationPromise =
+        atom.packages.activatePackage('linter-julia')
       waitsForPromise ->
-        atom.workspace.open(E321).then (openEditor) ->
-          editor = openEditor
+        atom.packages.activatePackage('language-coffee-script').then(() ->
+          atom.workspace.open(validfile))
+      atom.packages.triggerDeferredActivationHooks()
+      waitsForPromise(() -> activationPromise)
 
     it "finds at least one message", ->
       waitsForPromise ->
-        console.log LinterJulia.provideLinter().lint(editor)
-        #console.log editor
-        lint(editor).then (messages) ->
+        atom.workspace.open(E321).then (editor) -> lint(editor)
+        .then (messages) ->
           expect(messages.length).toBeGreaterThan(0)
 ###
     it "finds E321 correctly", ->

@@ -4,6 +4,20 @@ tmp = require('tmp')
 fs = require('fs')
 path = require 'path'
 
+startlintserver = (julia, named_pipe) ->
+  new Promise (resolve, reject) ->
+    scriptfile = path.join(__dirname, 'startlintserver.jl')
+    jserver = spawn julia, [scriptfile, named_pipe]
+    jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
+    result = ''
+    jserver.stdout.on 'data', (data) ->
+      result += data.toString().trim()
+      if /Server running on port/.test(result)
+        #global.lintserverisrunning = true
+        resolve(true)
+      console.log data.toString().trim()
+
+
 module.exports =
   config:
     julia:
@@ -40,7 +54,6 @@ module.exports =
       order: 5
 
   activate: ->
-    global.lintserverisrunning = false
     require('atom-package-deps').install('linter-julia', true)
     if atom.config.get('linter-julia.julia') != 'get_from_Juno'
       julia = atom.config.get('linter-julia.julia')
@@ -53,17 +66,9 @@ module.exports =
     else
       global.named_pipe = tempfil
 
-    scriptfile = path.join(__dirname, 'startlintserver.jl')
+    global.serverrunning = startlintserver(julia, named_pipe)
 
-    jserver = spawn julia, [scriptfile, named_pipe]
-    result = ''
-    jserver.stdout.on 'data', (data) ->
-      result += data.toString().trim()
-      if /Server running on port/.test(result)
-        global.lintserverisrunning = true
-      console.log data.toString().trim()
-    jserver.stderr.on 'data', (data) -> console.log data.toString().trim()
-
+  
   deactivate: ->
     # Removes the socket when shutting down
     if process.platform != 'win32'
@@ -76,10 +81,7 @@ module.exports =
       scope: 'file'
       lintOnFly: true
       lint: (textEditor)->
-        return new Promise (resolve, reject) ->
-          if lintserverisrunning
-            resolve()
-        .then (response) ->
+        serverrunning.then (response) ->
           return new Promise (resolve, reject) ->
             connection = net.createConnection(named_pipe)
             data = []
@@ -99,5 +101,5 @@ module.exports =
               data.push(chunk)
             connection.on 'close', () ->
               resolve(JSON.parse(data.join("")))
-        .catch (error) ->
-          reject(error)
+      #  .catch (error) ->
+      #    reject(error)
