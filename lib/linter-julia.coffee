@@ -53,7 +53,8 @@ module.exports =
     else
       global.named_pipe = tempfil
 
-    scriptfile = path.join(__dirname, 'startlintserver.jl'  )
+    scriptfile = path.join(__dirname, 'startlintserver.jl')
+
     jserver = spawn julia, [scriptfile, named_pipe]
     result = ''
     jserver.stdout.on 'data', (data) ->
@@ -75,9 +76,12 @@ module.exports =
       scope: 'file'
       lintOnFly: true
       lint: (textEditor)->
-        if lintserverisrunning
-          connection = net.createConnection(named_pipe)
+        return new Promise (resolve, reject) ->
+          if lintserverisrunning
+            resolve()
+        .then (response) ->
           return new Promise (resolve, reject) ->
+            connection = net.createConnection(named_pipe)
             data = []
             connection.on 'connect', () ->
               ignore = atom.config.get('linter-julia.ignore').split(/\s+/)
@@ -95,3 +99,5 @@ module.exports =
               data.push(chunk)
             connection.on 'close', () ->
               resolve(JSON.parse(data.join("")))
+        .catch (error) ->
+          reject(error)

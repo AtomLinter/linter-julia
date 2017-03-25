@@ -17,18 +17,21 @@ describe "LinterJulia", ->
     waitsForPromise ->
       atom.packages.activatePackage('linter-julia')
       return atom.packages.activatePackage('language-julia').then () ->
-        atom.workspace.open(validfile)
+        console.log lint(atom.workspace.open(validfile))
 
   describe "when the linter-julia lints a file", ->
     editor = null
     beforeEach ->
       waitsForPromise ->
-        atom.workspace.open(E321).then((openEditor) ->
-          editor = openEditor)
+        atom.workspace.open(E321).then (openEditor) ->
+          editor = openEditor
+
     it "finds at least one message", ->
       waitsForPromise ->
-        lint(editor).then(messages ->
-          expect(messages.length).toBeGreaterThan(0))
+        console.log LinterJulia.provideLinter().lint(editor)
+        #console.log editor
+        lint(editor).then (messages) ->
+          expect(messages.length).toBeGreaterThan(0)
 ###
     it "finds E321 correctly", ->
       waitsForPromise ->
