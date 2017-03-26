@@ -67,8 +67,9 @@ module.exports =
       global.named_pipe = tempfil
 
     global.serverrunning = startlintserver(julia, named_pipe)
+    .catch (error) ->
+      console.log error
 
-  
   deactivate: ->
     # Removes the socket when shutting down
     if process.platform != 'win32'
@@ -101,5 +102,3 @@ module.exports =
               data.push(chunk)
             connection.on 'close', () ->
               resolve(JSON.parse(data.join("")))
-      #  .catch (error) ->
-      #    reject(error)
