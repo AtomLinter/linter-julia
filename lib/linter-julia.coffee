@@ -13,8 +13,9 @@ startlintserver = (julia, named_pipe) ->
     jserver.stdout.on 'data', (data) ->
       result += data.toString().trim()
       if /Server running on port/.test(result)
-        #global.lintserverisrunning = true
-        resolve(true)
+        setTimeout ->
+          resolve(true)
+        , 2000
       console.log data.toString().trim()
 
 
