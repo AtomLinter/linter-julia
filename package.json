@@ -1,6 +1,6 @@
 {
   "name": "linter-julia",
-  "main": "./lib/linter-julia",
+  "main": "./lib/index.js",
   "version": "0.7.2",
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
@@ -20,12 +20,12 @@
     "atom-package-deps": "^4.0.1"
   },
   "package-deps": [
-    "linter:1.11.21"
+    "linter:2.0.0"
   ],
   "providedServices": {
     "linter": {
       "versions": {
-        "1.0.0": "provideLinter"
+        "2.0.0": "provideLinter"
       }
     }
   }
