@@ -40,6 +40,33 @@
       "description": "Path to julia.exe/julia",
       "default": "julia",
       "order": 1
+    },
+    "ignoreInfo": {
+      "type": "boolean",
+      "description": "Do not show infos",
+      "default": false,
+      "order": 2
+    },
+    "ignoreWarning": {
+      "type": "boolean",
+      "description": "Do not show warnings",
+      "default": false,
+      "order": 2
+    },
+    "showErrorCodes": {
+      "type": "boolean",
+      "description": "Show error codes on issues",
+      "default": true,
+      "order": 2
+    },
+    "ignoreIssueCodes": {
+      "type": "array",
+      "description": "Ignore issues that match with these codes",
+      "default": [],
+      "order": 3,
+      "items": {
+        "type": "string"
+      }
     }
   }
 }
