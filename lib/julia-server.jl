@@ -22,7 +22,7 @@ else
         end
     else # start the server
         try
-            lintserver(named_pipe,"standard-linter-v1")
+            lintserver(named_pipe,"standard-linter-v2")
         catch
             print(STDERR, "linter-julia-msg-load")
             rethrow()
