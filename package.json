@@ -28,5 +28,17 @@
         "2.0.0": "provideLinter"
       }
     }
+  },
+  "devDependencies": {
+    "eslint-config-steelbrain": "^3.0.0",
+    "flow-bin": "^0.42.0"
+  },
+  "configSchema": {
+    "executablePath": {
+      "type": "string",
+      "description": "Path to julia.exe/julia",
+      "default": "julia",
+      "order": 1
+    }
   }
 }
