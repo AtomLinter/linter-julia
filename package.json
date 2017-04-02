@@ -1,6 +1,6 @@
 {
   "name": "linter-julia",
-  "main": "./lib/linter-julia",
+  "main": "./lib/index.js",
   "version": "0.7.2",
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
@@ -15,17 +15,61 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
+  "scripts": {
+    "test": "(flow check) && (eslint . ) && (apm test)"
+  },
   "dependencies": {
-    "atom-linter": "^8.0.0",
-    "atom-package-deps": "^4.0.1"
+    "atom-linter": "^9.0.1",
+    "atom-package-deps": "^4.0.1",
+    "consistent-env": "^1.3.0",
+    "uuid4": "^1.0.0"
   },
   "package-deps": [
-    "linter:1.11.21"
+    "linter:2.0.0"
   ],
   "providedServices": {
     "linter": {
       "versions": {
-        "1.0.0": "provideLinter"
+        "2.0.0": "provideLinter"
+      }
+    }
+  },
+  "devDependencies": {
+    "eslint-config-steelbrain": "^3.0.0",
+    "flow-bin": "^0.42.0"
+  },
+  "configSchema": {
+    "executablePath": {
+      "type": "string",
+      "description": "Path to julia.exe/julia",
+      "default": "julia",
+      "order": 1
+    },
+    "ignoreInfo": {
+      "type": "boolean",
+      "description": "Do not show infos",
+      "default": false,
+      "order": 2
+    },
+    "ignoreWarning": {
+      "type": "boolean",
+      "description": "Do not show warnings",
+      "default": false,
+      "order": 2
+    },
+    "showErrorCodes": {
+      "type": "boolean",
+      "description": "Show error codes on issues",
+      "default": true,
+      "order": 2
+    },
+    "ignoreIssueCodes": {
+      "type": "array",
+      "description": "Ignore issues that match with these codes",
+      "default": [],
+      "order": 3,
+      "items": {
+        "type": "string"
       }
     }
   }
