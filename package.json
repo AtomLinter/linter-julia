@@ -1,7 +1,7 @@
 {
   "name": "linter-julia",
   "main": "./lib/index.js",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
     "Julia",
@@ -10,7 +10,7 @@
     "linter",
     "linter-julia"
   ],
-  "repository": "https://github.com/TeroFrondelius/linter-julia.git",
+  "repository": "https://github.com/AtomLinter/linter-julia.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

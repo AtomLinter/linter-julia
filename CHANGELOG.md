@@ -1,3 +1,6 @@
+## 0.7.3 - Move to AtomLinter organization
+* Move to the AtomLinter organization for future maintainability
+
 ## 0.7.2 - static linter version 1.11.21
 * This tries to fix #38
 * Also installation instructions updated, thanks @waldyrious

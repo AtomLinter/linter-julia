@@ -4,7 +4,7 @@ This linter plugin for [AtomLinter](https://atomlinter.github.io/)
 provides an interface to [Lint.jl](https://github.com/tonyhffong/Lint.jl).
 It will be used with files that have the `Julia` syntax.
 
-![screenshot](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/Screenshot.gif)
+![screenshot](https://raw.githubusercontent.com/AtomLinter/linter-julia/master/Screenshot.gif)
 
 ## Installation
 
@@ -25,7 +25,7 @@ see: https://github.com/tonyhffong/Lint.jl#installation
 
 ## Settings
 
-![screenshot](https://raw.githubusercontent.com/TeroFrondelius/linter-julia/master/settings.png)
+![screenshot](https://raw.githubusercontent.com/AtomLinter/linter-julia/master/settings.png)
 
 ## Features
 
@@ -33,9 +33,9 @@ see: https://github.com/tonyhffong/Lint.jl#installation
 * You can give a path to the `julia` executable that you want to use for Linting
 * You can ignore the messages you don't need
 
-[Issues](https://github.com/TeroFrondelius/linter-julia/issues) and [pull requests]
-(https://github.com/TeroFrondelius/linter-julia/pulls) are welcome.
+[Issues](https://github.com/AtomLinter/linter-julia/issues) and [pull requests]
+(https://github.com/AtomLinter/linter-julia/pulls) are welcome.
 
 ## CHANGELOG
 
-[See the full CHANGELOG here.](https://github.com/TeroFrondelius/linter-julia/blob/master/CHANGELOG.md)
+[See the full CHANGELOG here.](https://github.com/AtomLinter/linter-julia/blob/master/CHANGELOG.md)
