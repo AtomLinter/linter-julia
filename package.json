@@ -16,6 +16,7 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "scripts": {
+    "commitmsg": "commitlint -e $GIT_PARAMS",
     "test": "(flow check) && (eslint . ) && (apm test)"
   },
   "dependencies": {
@@ -35,6 +36,12 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.1.3",
+    "@commitlint/config-conventional": "^6.1.3",
+    "@commitlint/travis-cli": "^6.1.3",
+    "@semantic-release/apm-config": "^2.0.1",
+    "husky": "^0.14.3",
+    "semantic-release": "^15.1.7",
     "eslint-config-steelbrain": "^3.0.0",
     "flow-bin": "^0.42.0"
   },
@@ -72,5 +79,13 @@
         "type": "string"
       }
     }
+  },
+  "release": {
+    "extends": "@semantic-release/apm-config"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
