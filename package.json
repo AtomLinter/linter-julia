@@ -37,7 +37,10 @@
     }
   },
   "devDependencies": {
-    "eslint-config-steelbrain": "3.0.1",
+    "babel-eslint": "10.0.1",
+    "eslint": "5.13.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.16.0",
     "flow-bin": "0.93.0"
   },
   "configSchema": {
@@ -89,5 +92,27 @@
         "groupName": "ESLint packages"
       }
     ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "parser": "babel-eslint",
+    "rules": {
+      "global-require": "off",
+      "import/no-unresolved": [
+        "error",
+        {
+          "ignore": [
+            "atom"
+          ]
+        }
+      ]
+    },
+    "globals": {
+      "atom": true
+    },
+    "env": {
+      "node": true,
+      "browser": true
+    }
   }
 }
