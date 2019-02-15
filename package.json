@@ -2,6 +2,7 @@
   "name": "linter-julia",
   "main": "./lib/index.js",
   "version": "0.7.3",
+  "private": true,
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
     "Julia",
@@ -72,5 +73,20 @@
         "type": "string"
       }
     }
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ],
+    "semanticCommits": true,
+    "rangeStrategy": "pin",
+    "packageRules": [
+      {
+        "packagePatterns": [
+          "^eslint"
+        ],
+        "groupName": "ESLint packages"
+      }
+    ]
   }
 }
