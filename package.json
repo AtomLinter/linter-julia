@@ -17,7 +17,8 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "scripts": {
-    "test": "(flow check) && (eslint . ) && (apm test)"
+    "lint": "(flow check) && (eslint . )",
+    "test": "(npm run lint) && (apm test)"
   },
   "dependencies": {
     "atom-linter": "9.0.1",
@@ -37,7 +38,7 @@
   },
   "devDependencies": {
     "eslint-config-steelbrain": "3.0.1",
-    "flow-bin": "0.42.0"
+    "flow-bin": "0.93.0"
   },
   "configSchema": {
     "executablePath": {
