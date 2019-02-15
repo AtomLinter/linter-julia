@@ -17,7 +17,8 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "scripts": {
-    "test": "(flow check) && (eslint . ) && (apm test)"
+    "lint": "(flow check) && (eslint . )",
+    "test": "(npm run lint) && (apm test)"
   },
   "dependencies": {
     "atom-linter": "9.0.1",
