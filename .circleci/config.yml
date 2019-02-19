@@ -9,7 +9,7 @@ defaults: &defaults
     - attach_workspace:
         at: /tmp
     - run:
-        name: Install Julia v0.5.2
+        name: Install Julia v0.6.4
         command: |
           curl -o julia.tar.gz --location --silent --show-error \
             https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.4-linux-x86_64.tar.gz && \
