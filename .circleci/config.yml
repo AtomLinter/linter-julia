@@ -12,7 +12,7 @@ defaults: &defaults
         name: Install Julia v0.5.2
         command: |
           curl -o julia.tar.gz --location --silent --show-error \
-            https://julialang-s3.julialang.org/bin/linux/x64/0.5/julia-0.5.2-linux-x86_64.tar.gz && \
+            https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.4-linux-x86_64.tar.gz && \
           mkdir julia && \
           tar --extract --gzip --strip 1 --directory=julia --file=julia.tar.gz && \
           echo 'export PATH="/home/atom/julia/bin:$PATH"' >> $BASH_ENV
