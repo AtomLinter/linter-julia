@@ -15,7 +15,7 @@ defaults: &defaults
             https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.4-linux-x86_64.tar.gz && \
           mkdir julia && \
           tar --extract --gzip --strip 1 --directory=julia --file=julia.tar.gz && \
-          echo 'export PATH="/home/atom/julia/bin:$PATH"' >> $BASH_ENV
+          echo 'export PATH="/tmp/project/julia/bin:$PATH"' >> $BASH_ENV
     - run:
         name: Julia version
         command: julia --version
