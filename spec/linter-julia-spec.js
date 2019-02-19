@@ -11,7 +11,7 @@ const { lint } = require('../lib/index.js').provideLinter();
 const badFile = path.join(__dirname, 'fixtures', 'bad.jl');
 const goodFile = path.join(__dirname, 'fixtures', 'good.jl');
 
-describe('The go vet provider for Linter', () => {
+describe('The Julia Lint.jl provider for Linter', () => {
   beforeEach(async () => {
     atom.workspace.destroyActivePaneItem();
     await atom.packages.activatePackage('linter-julia');
