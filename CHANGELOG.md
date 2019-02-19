@@ -1,3 +1,8 @@
+## 0.7.4
+* Update dependencies
+* Fix usage of `uuid4` (#60)
+* Specify as able to lint unsaved changes (#60)
+
 ## 0.7.3 - Move to AtomLinter organization
 * Move to the AtomLinter organization for future maintainability
 
