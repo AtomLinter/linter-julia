@@ -17,6 +17,16 @@ defaults: &defaults
           tar --extract --gzip --strip 1 --directory=julia --file=julia.tar.gz && \
           echo 'export PATH="/home/atom/julia/bin:$PATH"' >> $BASH_ENV
     - run:
+        name: Julia version
+        command: julia --version
+    - run:
+        name: Install Lint.jl
+        # Note the "using Lint" is to pre-compile the cache
+        command: julia -E 'Pkg.add("Lint"); using Lint;'
+    - run:
+        name: Lint.jl version
+        command: julia -E 'Pkg.installed("Lint")'
+    - run:
         name: Create VFB for Atom to run in
         command: /usr/local/bin/xvfb_start
     - run:
