@@ -1,9 +1,8 @@
 using Lint
 
 named_pipe = ARGS[1]
-notinstalled = Pkg.installed("Lint") == nothing
 
-if notinstalled
+if Pkg.installed("Lint") == nothing
     print(STDERR, "linter-julia-installing-lint")
     try
         Pkg.add("Lint")
