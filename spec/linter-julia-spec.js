@@ -30,7 +30,7 @@ describe('The Julia Lint.jl provider for Linter', () => {
     expect(messages[0].excerpt).toBe(excerpt);
     expect(messages[0].location.file).toBe(badFile);
     // NOTE: This is invalid! Bug in Lint.jl
-    expect(messages[0].location.position).toEqual([[1, 0], [1, 80]]);
+    expect(messages[0].location.position).toEqual([[23, 0], [23, 80]]);
   });
 
   it('finds nothing wrong with a valid file', async () => {
