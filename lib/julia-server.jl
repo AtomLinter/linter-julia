@@ -1,30 +1,34 @@
-using Lint
+using Pkg;
+
+LintPkg = PackageSpec(url="https://github.com/tonyhffong/Lint.jl", rev="master");
 
 named_pipe = ARGS[1]
 
-if Pkg.installed("Lint") == nothing
-    print(STDERR, "linter-julia-installing-lint")
+if get(Pkg.installed(), "Lint", nothing) == nothing == nothing
+    print(Base.stderr, "linter-julia-installing-lint");
     try
-        Pkg.add("Lint")
+        Pkg.add(LintPkg);
     catch
-        print(STDERR, "linter-julia-msg-install")
-        rethrow()
+        print(Base.stderr, "linter-julia-msg-install");
+        rethrow();
     end
 else
-    if Pkg.installed("Lint") < v"0.3.0"
-        print(STDERR, "linter-julia-updating-lint")
+    if get(Pkg.installed(), "Lint", nothing) < v"0.3.0"
+        print(Base.stderr, "linter-julia-updating-lint");
         try
-            Pkg.update("Lint")
+            # NOTE: This doesn't appear to be working?
+            Pkg.update(LintPkg);
         catch
-            print(STDERR, "linter-julia-msg-update")
-            rethrow()
+            print(Base.stderr, "linter-julia-msg-update");
+            rethrow();
         end
     else # start the server
         try
-            lintserver(named_pipe,"standard-linter-v2")
+            using Lint;
+            lintserver(named_pipe,"standard-linter-v2");
         catch
-            print(STDERR, "linter-julia-msg-load")
-            rethrow()
+            print(Base.stderr, "linter-julia-msg-load");
+            rethrow();
         end
     end
 end

@@ -12,7 +12,7 @@ defaults: &defaults
         name: Install Julia v0.6.4
         command: |
           curl -o julia.tar.gz --location --silent --show-error \
-            https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.4-linux-x86_64.tar.gz && \
+            https://julialang-s3.julialang.org/bin/linux/x64/1.1/julia-1.1.0-linux-x86_64.tar.gz && \
           mkdir julia && \
           tar --extract --gzip --strip 1 --directory=julia --file=julia.tar.gz && \
           echo 'export PATH="/tmp/project/julia/bin:$PATH"' >> $BASH_ENV
@@ -22,10 +22,13 @@ defaults: &defaults
     - run:
         name: Install Lint.jl
         # Note the "using Lint" is to pre-compile the cache
-        command: julia -E 'Pkg.add("Lint"); using Lint;'
+        # Also, we are using the `master` branch directly since a working
+        # version isn't currently released.
+        command: |
+          julia -E 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/tonyhffong/Lint.jl", rev="master")); using Lint;'
     - run:
         name: Lint.jl version
-        command: julia -E 'Pkg.installed("Lint")'
+        command: julia -E 'using Pkg; Pkg.status("Lint");'
     - run:
         name: Create VFB for Atom to run in
         command: /usr/local/bin/xvfb_start
