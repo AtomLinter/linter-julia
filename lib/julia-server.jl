@@ -14,11 +14,12 @@ if get(Pkg.installed(), "Lint", nothing) == nothing == nothing
     end
 else
     ver = get(Pkg.installed(), "Lint", nothing)
-    if  ver != v"0.0.0" && ver < v"0.3.0"
+    if  ver != v"0.0.0" # && ver < v"0.3.0" # wait until registered
         print(Base.stderr, "linter-julia-updating-lint");
         try
-            # NOTE: This doesn't appear to be working?
-            Pkg.update(LintPkg);
+            Pkg.add(LintPkg);
+            # Wait until registered
+            # Pkg.update(LintPkg);
         catch
             print(Base.stderr, "linter-julia-msg-update");
             rethrow();
