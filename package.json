@@ -1,7 +1,7 @@
 {
   "name": "linter-julia",
   "main": "./lib/index.js",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "description": "Lint.jl support for Atom using the linter package",
   "keywords": [
