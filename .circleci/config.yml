@@ -9,10 +9,10 @@ defaults: &defaults
     - attach_workspace:
         at: /tmp
     - run:
-        name: Install Julia v0.6.4
+        name: Install Julia v1.2.0
         command: |
           curl -o julia.tar.gz --location --silent --show-error \
-            https://julialang-s3.julialang.org/bin/linux/x64/1.1/julia-1.1.0-linux-x86_64.tar.gz && \
+            https://julialang-s3.julialang.org/bin/linux/x64/1.2/julia-1.2.0-linux-x86_64.tar.gz && \
           mkdir julia && \
           tar --extract --gzip --strip 1 --directory=julia --file=julia.tar.gz && \
           echo 'export PATH="/tmp/project/julia/bin:$PATH"' >> $BASH_ENV
