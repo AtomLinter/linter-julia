@@ -13,7 +13,8 @@ if get(Pkg.installed(), "Lint", nothing) == nothing == nothing
         rethrow();
     end
 else
-    if get(Pkg.installed(), "Lint", nothing) < v"0.3.0"
+    ver = get(Pkg.installed(), "Lint", nothing)
+    if  ver != v"0.0.0" && ver < v"0.3.0"
         print(Base.stderr, "linter-julia-updating-lint");
         try
             # NOTE: This doesn't appear to be working?
