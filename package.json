@@ -51,29 +51,36 @@
       "default": "julia",
       "order": 1
     },
+    "backend": {
+      "type": "string",
+      "description": "Backend that linter-julia uses",
+      "default": "StaticLint",
+      "enum": ["StaticLint","Lint"], 
+      "order": 2
+    },
     "ignoreInfo": {
       "type": "boolean",
       "description": "Do not show infos",
       "default": false,
-      "order": 2
+      "order": 3
     },
     "ignoreWarning": {
       "type": "boolean",
       "description": "Do not show warnings",
       "default": false,
-      "order": 2
+      "order": 3
     },
     "showErrorCodes": {
       "type": "boolean",
       "description": "Show error codes on issues",
       "default": true,
-      "order": 2
+      "order": 3
     },
     "ignoreIssueCodes": {
       "type": "array",
       "description": "Ignore issues that match with these codes",
       "default": [],
-      "order": 3,
+      "order": 4,
       "items": {
         "type": "string"
       }
