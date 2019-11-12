@@ -38,9 +38,18 @@ $ apm install linter-julia
 * You can give a path to the `julia` executable that you want to use for Linting
 * You can ignore the messages you don't need
 
-[Issues](https://github.com/AtomLinter/linter-julia/issues) and [pull requests]
-(https://github.com/AtomLinter/linter-julia/pulls) are welcome.
+[Issues](https://github.com/AtomLinter/linter-julia/issues) and [pull requests](https://github.com/AtomLinter/linter-julia/pulls) are welcome.
 
 ## CHANGELOG
 
 [See the full CHANGELOG here.](https://github.com/AtomLinter/linter-julia/blob/master/CHANGELOG.md)
+
+## Development
+Install Atom, then:
+```bash
+$ apm dev linter-julia
+```
+Inside the project in Atom:
+-  Press Ctrl-Shift-P to open the Command Palette.
+-  Type updu which should select Update Package Dependencies: Update
+-  Press Enter

@@ -55,7 +55,10 @@
       "type": "string",
       "description": "Backend that linter-julia uses",
       "default": "Lint",
-      "enum": ["StaticLint","Lint"], 
+      "enum": [
+        "StaticLint",
+        "Lint"
+      ],
       "order": 2
     },
     "ignoreInfo": {
