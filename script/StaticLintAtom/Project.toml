@@ -1,0 +1,19 @@
+name = "StaticLintAtom"
+uuid = "9198fa53-f1ec-40a6-97e0-5a560d617714"
+authors = ["Amin Yahyaabadi"]
+version = "0.1.0"
+
+[deps]
+LanguageServer = "2b0e0bc5-e4fd-59b4-8912-456d1b03d8d7"
+StaticLint = "b3cc710f-9c33-5bdb-a03d-a94903873e97"
+SymbolServer = "cf896787-08d5-524d-9de7-132aaa0cb996"
+
+[compat]
+julia = "1"
+LanguageServer = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
