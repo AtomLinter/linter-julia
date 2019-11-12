@@ -47,7 +47,7 @@ $ apm install linter-julia
 ## Development
 Install Atom, then:
 ```bash
-$ apm dev linter-julia
+$ apm install linter-julia
 ```
 Inside the project in Atom:
 -  Press Ctrl-Shift-P to open the Command Palette.
