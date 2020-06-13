@@ -1,5 +1,8 @@
 # linter-julia
 
+:warning: This linter currently uses the old Lint.jl which does not work on the latest versions of Julia :warning:
+
+
 This linter plugin for [AtomLinter](https://atomlinter.github.io/)
 provides an interface to [Lint.jl](https://github.com/tonyhffong/Lint.jl).
 It will be used with files that have the `Julia` syntax.
