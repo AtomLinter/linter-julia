@@ -3,11 +3,11 @@
   "main": "./lib/index.js",
   "version": "0.8.3",
   "private": true,
-  "description": "Lint.jl support for Atom using the linter package",
+  "description": "StaticLint.jl support for Atom using the linter package",
   "keywords": [
     "Julia",
     "julia",
-    "Lint.jl",
+    "StaticLint.jl",
     "linter",
     "linter-julia"
   ],
