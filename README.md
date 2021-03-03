@@ -7,12 +7,13 @@ It will be used with files that have the `Julia` syntax.
 This is a fork that replaces Lint.jl with the same linter that is in the Julia VSCode plugin.
 It seems to work for me, but consider this an alpha code.
 
-![screenshot](https://raw.githubusercontent.com/AtomLinter/linter-julia/master/Screenshot.gif)
+![screenshot](https://raw.githubusercontent.com/takbal/linter-julia/master/Screenshot.gif)
 
 ## Caveats
 
 * The server need a few minutes to parse symbols in a new Julia environment that this Atom instance did not observe before.
   Please be patient when opening a new project, or starting the editor the first time.
+* The file you are linting should be either 1) included from the project root file, or 2) should not be in a project.
 * It only considers files that are on the disk. You need to save all files to lint correctly.
 * Linting seems to be triggered only when saving or opening files. To re-lint, you need to save the file again.
 * The symbols are rebuilt if the modification time of the Project.toml or the Manifest.toml files change, for example,
@@ -47,7 +48,7 @@ $ apm install linter-julia
 - This package installs the master branch of StaticLint.jl and SymbolServer.jl automatically into
 the linter-julia shared environment.
 
-Was tested with [linter-ui-default](https://atom.io/packages/linter-ui-default) and [atom-ide-ui](https://atom.io/packages/atom-ide-ui) installed.
+Was tested with Julia 1.5.3, [linter-ui-default](https://atom.io/packages/linter-ui-default) and [atom-ide-ui](https://atom.io/packages/atom-ide-ui) installed.
 
 ## Settings
 
