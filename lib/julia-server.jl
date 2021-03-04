@@ -9,6 +9,7 @@ Pkg.activate("linter-julia", shared=true)
 needed_packages = Dict(
     "StaticLint" => v"7.0.0",
     "SymbolServer" => v"6.0.1",
+    "CSTParser" => v"3.1.0",
     "JSON" => v"0.21.1"
 )
 
@@ -18,8 +19,9 @@ needed_packages = Dict(
 const symbolserver_script = joinpath( dirname(@__FILE__), "julia-symbolserver.jl" )
 const store_location = dirname(Pkg.project().path)
 const julia_exec = joinpath(Sys.BINDIR, Base.julia_exename())
-const atom_pid = ccall(:getppid, Int32, ())
-const sspipe = Sys.iswindows() ? "\\\\.\\pipe\\" * store_location * "\\ss.pipe." * string(atom_pid) : joinpath(store_location, "ss.pipe." * string(atom_pid) )
+# we need to find a way to get parent pid on Windows ...
+const atom_pid = Sys.iswindows() ? 0 : ccall(:getppid, Int32, ())
+const sspipe = Sys.iswindows() ? "\\\\.\\pipe\\" * "ss.pipe." * string(atom_pid) : joinpath(store_location, "ss.pipe." * string(atom_pid) )
 const port = ARGS[1]
 const startlockfile = joinpath( store_location, "serverstart.lock." * string(atom_pid))
 

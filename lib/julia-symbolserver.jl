@@ -1,4 +1,4 @@
-using Pkg, Logging, StaticLint, SymbolServer, JSON, Sockets, Serialization
+using Pkg, Logging, StaticLint, SymbolServer, CSTParser, JSON, Sockets, Serialization
 
 import Base.Threads.@spawn
 
@@ -71,6 +71,7 @@ function guess_environment(fname::AbstractString)::AbstractString
 
 end
 
+# this works on unix only, we need to find a way to get test and kill pids on Windows ...
 function exit_if_atom_dies()
 
     global processes
@@ -168,7 +169,7 @@ function generate_messages( fname::AbstractString, env::AbstractString, ss )::Ve
                     code = "W"*string(Int32(x.meta.error), pad=3)
                     severity = "warning"
                 end
-            elseif StaticLint.headof(x) === :errortoken
+            elseif CSTParser.headof(x) === :errortoken
                 msg = "Parsing error"
                 code = "E000"
                 severity = "error"
@@ -265,7 +266,10 @@ logger = open(joinpath(store_location, "symbolserver.log." * string(atom_pid)), 
 
 global_logger( SimpleLogger(logger) )
 
-@spawn exit_if_atom_dies()
+if !Sys.iswindows()
+    # need to find a way to get test and kill pids on Windows ...
+    @spawn exit_if_atom_dies()
+end
 
 try
 
