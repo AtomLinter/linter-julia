@@ -120,6 +120,10 @@ If no Project.toml is found in parents, the default environment is returned.
 """
 function guess_environment(fname::AbstractString)::AbstractString
 
+    if isempty(fname)
+        return default_env
+    end
+
     try
         fname = realpath(fname)
         actdir = dirname(fname)
@@ -148,7 +152,7 @@ function exit_if_atom_dies()
                 exit()
             end
         else
-            # need to find a way to get test pids on Windows ...
+            # need to find a way to test pids on Windows ...
         end
         sleep(5)
     end
@@ -218,9 +222,16 @@ function generate_messages( fname::AbstractString, code::AbstractString, env::Ab
     # this is a hack from StaticLint.lint_file() and lint_string()
 
     empty!(ss.server.files)
-    root = StaticLint.loadfile(ss.server, rootfile)
-    StaticLint.semantic_pass(root)
+    if !isempty(rootfile)
+        root = StaticLint.loadfile(ss.server, rootfile)
+        StaticLint.semantic_pass(root)
+    else
+        root = nothing
+    end
     buffer = StaticLint.File(fname, code, CSTParser.parse(code, true), root, ss.server)
+    if isempty(rootfile)
+        StaticLint.setroot(buffer, buffer)
+    end
     StaticLint.setfile(ss.server, fname, buffer)
     StaticLint.semantic_pass(buffer)
     for (p,f) in ss.server.files
@@ -322,9 +333,16 @@ function convertmsgtojson(msgs, code)
         # Atom index starts from zero thus minus one
         errorrange = Array[[startline-1, startcolumn], [endline-1, endcolumn]]
 
+        # this seems to be by design, https://github.com/steelbrain/linter/issues/1235
+        # weird is that it seems to call the linter, but does not display the returned data
+        if isempty(msg.filename)
+            loc = Dict("position" => errorrange)
+        else
+            loc = Dict("file" => msg.filename, "position" => errorrange)
+        end
+
         push!(output, Dict( "severity" => msg.severity,
-                            "location" => Dict("file" => msg.filename,
-                                                "position" => errorrange),
+                            "location" => loc,
                             "excerpt" => msg.message,
                             "description" => msg.code) )
 
@@ -366,11 +384,11 @@ function handle_connection(conn)
         end
 
         data = JSON.parse(conn)
-        fname = data["file"]
+
+        haskey(data, "file") ? fname = data["file"] : fname = ""
 
         @debug "request for file : $fname"
 
-        # determine the environment
         env = guess_environment(fname)
 
         # check mtime of Project.toml and Manifest.toml

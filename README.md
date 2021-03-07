@@ -5,43 +5,36 @@ provides an interface to [StaticLint.jl](https://github.com/julia-vscode/StaticL
 It will be used with files that have the `Julia` syntax.
 
 This is a fork that replaces Lint.jl with StaticLint.jl from the Julia VSCode plugin.
-It seems to work for me, but consider this an alpha code.
 
 ![screenshot](https://raw.githubusercontent.com/takbal/linter-julia/master/Screenshot.gif)
 
 ## Developed on
 
 * julia-1.5.3
-* ubuntu 18.04
 * [linter-ui-default](https://atom.io/packages/linter-ui-default)
 * [linter](https://atom.io/packages/linter)
-* [atom-ide-ui](https://atom.io/packages/atom-ide-ui) (with diagnostics disabled)
+* tested on ubuntu 18.04 and windows
 
 ## Caveats
 
-* The server needs a few minutes to parse new Julia environments that this Atom instance have not seen before.
-  There is no feedback given on this process yet. Please be patient when opening a new project, or starting the editor the first time.
-* The file you are linting must be either 1) included from the project root file, or 2) should not be in a directory that has a
-Project.toml in any of its parents.
-* It only considers files that are on the disk. You need to save all files in order to lint them correctly.
-* Linting seems to be triggered only when saving or opening files. To re-lint, you need to save the file again.
+* The server needs some time to parse new Julia environments that this Atom instance have not seen before.
+  A pop-up is shown about the environments that are being currently parsed. If the environment is parsed,
+  linting in new files is fast.
+* The edited file has to be saved at least once for linting to start. This seems to be by design of the linter package (https://github.com/steelbrain/linter/issues/1235)
+* The environment for each file is guessed from its path. If this fails, Julia's default environment is assumed.
 * The symbols are rebuilt if the modification time of the Project.toml or the Manifest.toml files change, for example,
 you add, remove or update packages. Linting is not available during this rebuild.
 * It works on Windows, but does not shuts down correctly.
 
 ## Internals
 
-Only the Julia server code was changed - I know nothing of Atom development or js. Something is wrong there, as Atom seems to be
-erratic in launching and shutting down server processes. Therefore, the symbol server process registers pids of servers,
-and kills them on shutdown. This does not work on Windows yet.
+I know nothing of Atom development or js, so the changes are likely messy there, please revise. Atom seems to be
+unable to shut down the server process, so it exits by watching the PID right now. This does not work on Windows yet.
 
-The code generates its private shared environment at the Julia depot in environments/linter-julia, installs its
-dependencies there, and also places files there, the symbol server log in particular.
+The code generates its private shared environment at the Julia depot in 'environments/linter-julia'. It also places a logfile there.
 
-A separate process builds SymbolServers for each environment detected. Detection works by walking
-upwards in the path and looking for Project.toml. The project's root file is then looked for at
-the canonical X/src/X.jl etc. locations. If no root is detected, the file becomes the root. If no
-environment found, the default environment is used.
+Environment guessing works by walking upwards in the path and looking for Project.toml. The project's
+root file is then looked for at the canonical X/src/X.jl etc. locations.
 
 ## Installation
 
@@ -61,7 +54,7 @@ $ apm install linter-julia
 
 * By default linter-julia uses Juno's `julia`
 * You can give a path to the `julia` executable that you want to use for Linting
-* You can set to ignore the messages you don't need
+* You can ignore the messages you don't need
 
 [Issues](https://github.com/AtomLinter/linter-julia/issues) and [pull requests]
 (https://github.com/AtomLinter/linter-julia/pulls) are welcome.
