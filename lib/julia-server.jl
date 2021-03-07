@@ -85,7 +85,7 @@ const infohints = [ StaticLint.ConstIfCondition, StaticLint.PointlessOR, StaticL
 
 ### types ###
 
-struct LintMsg
+mutable struct LintMsg
     filename::String
     message::String
     code::String
@@ -153,6 +153,7 @@ function exit_if_atom_dies()
             end
         else
             # need to find a way to test pids on Windows ...
+
         end
         sleep(5)
     end
@@ -219,21 +220,21 @@ function generate_messages( fname::AbstractString, code::AbstractString, env::Ab
     # lock server
     take!(ss.available)
 
-    # this is a hack from StaticLint.lint_file() and lint_string()
+    # this is a hack from StaticLint.lint_file() and StaticLint.sslint_string()
 
     empty!(ss.server.files)
-    if !isempty(rootfile)
-        root = StaticLint.loadfile(ss.server, rootfile)
-        StaticLint.semantic_pass(root)
-    else
-        root = nothing
-    end
+    root = !isempty(rootfile) ? StaticLint.loadfile(ss.server, rootfile) : nothing
+
     buffer = StaticLint.File(fname, code, CSTParser.parse(code, true), root, ss.server)
-    if isempty(rootfile)
+    if isnothing(root) || fname == rootfile
         StaticLint.setroot(buffer, buffer)
+        root = buffer
     end
     StaticLint.setfile(ss.server, fname, buffer)
+
     StaticLint.semantic_pass(buffer)
+    StaticLint.semantic_pass(root)
+
     for (p,f) in ss.server.files
         StaticLint.check_all(f.cst, StaticLint.LintOptions(), ss.server)
     end
@@ -312,22 +313,41 @@ function find_line_column_string(str::AbstractString, position::Int64)
     return find_line_column(IOBuffer(str), position)
 end
 
+function get_last_charpos(str::AbstractString, position::Int64)::Int64
+    prev = findprev( x -> !isspace(x), str, position )
+    if isnothing(prev)
+        prev = 1
+    end
+    return prev
+end
+
 function convertmsgtojson(msgs, code)
     output = Any[]
     for msg in msgs
 
         # determine line and column from the file
         @assert msg.startpos <= msg.endpos
+        if msg.endpos > length(code)
+            @warn "endpos $(msg.endpos) is higher than code length $(length(code))"
+            msg.endpos = length(code)
+        end
+        endpos = get_last_charpos(code, msg.endpos)
         startline, startcolumn = find_line_column_string(code, msg.startpos)
-        endline, endcolumn = find_line_column_string(code, msg.endpos)
+        endline, endcolumn = find_line_column_string(code, endpos)
 
         if startline > endline
-            endline = startline
-            @warn "start line is smaller than end line"
+            startline = endline
+            startcolumn = endcolumn
         end
         if startline == endline && startcolumn > endcolumn
             startcolumn = endcolumn
-            @warn "start column is smaller than end column"
+        end
+
+        # this looks like a bug in linter: as we type at the end of the buffer, the editor seems to propagate
+        # the end position, despite linter returning the correct line/column. Fix this here by marking one less
+        # character if we are the end of the buffer. A bit ugly when typing, but less ugly than dragging the error
+        if endpos == length(code)
+            endcolumn -= 1
         end
 
         # Atom index starts from zero thus minus one
