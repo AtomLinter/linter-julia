@@ -12,7 +12,7 @@ const badFile = path.join(__dirname, 'fixtures', 'bad.jl');
 const goodFile = path.join(__dirname, 'fixtures', 'good.jl');
 
 // Julia is _slow_ to bring in StaticLint.jl, increase the timeout to 90 seconds
-jasmine.getEnv().defaultTimeoutInterval = 90 * 1000;
+jasmine.getEnv().defaultTimeoutInterval = 180 * 1000;
 
 describe('The Julia StaticLint.jl provider for Linter', () => {
   beforeEach(async () => {

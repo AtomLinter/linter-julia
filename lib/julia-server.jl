@@ -40,6 +40,9 @@ if ispath(port)
     exit()
 end
 
+# it is needed for the log file at the very first install
+mkpath(store_location)
+
 # remove previous logs
 logs = readdir(store_location, join = true)
 for f in logs

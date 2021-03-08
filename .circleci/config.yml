@@ -20,16 +20,6 @@ defaults: &defaults
         name: Julia version
         command: julia --version
     - run:
-        name: Install StaticLint.jl
-        # Note the "using Lint" is to pre-compile the cache
-        # Also, we are using the `master` branch directly since a working
-        # version isn't currently released.
-        command: |
-          julia -E 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/julia-vscode/StaticLint.jl", rev="master")); using StaticLint;'
-    - run:
-        name: StaticLint.jl version
-        command: julia -E 'using Pkg; Pkg.status("StaticLint");'
-    - run:
         name: Create VFB for Atom to run in
         command: /usr/local/bin/xvfb_start
     - run:
