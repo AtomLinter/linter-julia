@@ -146,21 +146,17 @@ end
 
 function exit_if_atom_dies()
 
-    HANDLE = Ptr{Cvoid}
-    DWORD = UInt32
-    BOOL = Cint
-
     PROCESS_QUERY_INFORMATION = 0x0400
     ERROR_INVALID_PARAMETER = 0x57
     STILL_ACTIVE = 259
 
     function CloseHandle(handle)
-        Base.windowserror(:CloseHandle, 0 == ccall(:CloseHandle, stdcall, Cint, (HANDLE,), handle))
+        Base.windowserror(:CloseHandle, 0 == ccall(:CloseHandle, stdcall, Cint, (Ptr{Cvoid},), handle))
         nothing
     end
 
     function OpenProcess(id::Integer, rights = PROCESS_QUERY_INFORMATION)
-        proc = ccall((:OpenProcess, "kernel32"), stdcall, HANDLE, (DWORD, BOOL, DWORD), rights, false, id)
+        proc = ccall((:OpenProcess, "kernel32"), stdcall, Ptr{Cvoid}, (UInt32, Cint, UInt32), rights, false, id)
         Base.windowserror(:OpenProcess, proc == C_NULL)
         proc
     end
@@ -183,9 +179,9 @@ function exit_if_atom_dies()
                 end
             end
 
-            exitCode = Ref{DWORD}()
+            exitCode = Ref{UInt32}()
 
-            if ccall(:GetExitCodeProcess, stdcall, BOOL, (HANDLE, Ref{DWORD}), hProcess, exitCode) != 0
+            if ccall(:GetExitCodeProcess, stdcall, Cint, (Ptr{Cvoid}, Ref{UInt32}), hProcess, exitCode) != 0
                 CloseHandle(hProcess)
                 if exitCode[] != STILL_ACTIVE
                     exit()
