@@ -12,7 +12,7 @@ const badFile = path.join(__dirname, 'fixtures', 'bad.jl');
 const goodFile = path.join(__dirname, 'fixtures', 'good.jl');
 
 // Julia is _slow_ to bring in StaticLint.jl, increase the timeout to 90 seconds
-jasmine.getEnv().defaultTimeoutInterval = 180 * 1000;
+jasmine.getEnv().defaultTimeoutInterval = 400 * 1000;
 
 describe('The Julia StaticLint.jl provider for Linter', () => {
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
     const excerpt = 'Missing reference';
     // very first call - it needs to install packages plus build the server
     await atom.workspace.open(badFile);
-    await wait(300000);
+    await wait(300 * 1000);
     const editor = await atom.workspace.open(badFile);
     const messages = await lint(editor);
 
