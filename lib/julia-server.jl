@@ -2,6 +2,9 @@ using Pkg, Sockets, Serialization, Logging
 
 import Base.Threads.@spawn
 
+# assumes the julia executable starts in the default environment
+const default_env = dirname(Pkg.project().path)
+
 # both this script and the symbol server is going to use this shared environment
 Pkg.activate("linter-julia", shared=true)
 
@@ -28,9 +31,6 @@ needed_packages = Dict(
     return(String(take!(buffer)))
 end
 
-# if you know a better way of getting the default Julia environment, please tell ...
-const julia_exec = joinpath(Sys.BINDIR, Base.julia_exename())
-const default_env = strip(read(`$julia_exec --startup-file=no -e "using Pkg; println(dirname(Pkg.project().path))"`, String))
 const store_location = dirname(Pkg.project().path)
 const port = ARGS[1]
 const atom_pid = parse(Int32, split(port,"_")[end])
@@ -448,9 +448,12 @@ end
 try
     server = listen(port)
 
-    # # this is looping until Atom dies
+    # this is looping until Atom dies
     while true
         conn = accept(server)
+        # there isn't too much point in @spawn this: only the server generation is slow, and that is MT anyway
+        # you would also need to add more threads that are not going do too much all of the time
+        # but you may get weird race conditions
         @async handle_connection(conn)
     end
 
