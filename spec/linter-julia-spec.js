@@ -23,7 +23,7 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
   // avoid first pass empty messages by linting any files in the environment, then
   // waiting for the symbols to build
   beforeAll(function (done) {
-    await atom.workspace.open(badFile);
+    atom.workspace.open(badFile);
     setTimeout(done, 15000);
   });
 
