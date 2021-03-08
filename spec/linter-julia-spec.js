@@ -3,7 +3,7 @@
 import * as path from 'path';
 import {
   // eslint-disable-next-line no-unused-vars
-  it, fit, wait, beforeEach, afterEach,
+  it, fit, wait, beforeEach, afterEach, beforeAll,
 } from 'jasmine-fix';
 
 const { lint } = require('../lib/index.js').provideLinter();
