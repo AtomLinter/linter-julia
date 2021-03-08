@@ -3,7 +3,7 @@
 import * as path from 'path';
 import {
   // eslint-disable-next-line no-unused-vars
-  it, fit, wait, beforeEach, afterEach, beforeAll,
+  it, fit, wait, beforeEach, afterEach,
 } from 'jasmine-fix';
 
 const { lint } = require('../lib/index.js').provideLinter();
@@ -16,15 +16,13 @@ jasmine.getEnv().defaultTimeoutInterval = 180 * 1000;
 
 describe('The Julia StaticLint.jl provider for Linter', () => {
   beforeEach(async () => {
-    atom.workspace.destroyActivePaneItem();
+    // try to avoid initial symbol step empty message
     await atom.packages.activatePackage('linter-julia');
-  });
-
-  // avoid first pass empty messages by linting any files in the environment, then
-  // waiting for the symbols to build
-  beforeAll((done) => {
-    atom.workspace.open(badFile);
-    setTimeout(done, 15000);
+    await atom.workspace.open(badFile);
+    jasmine.clock.install();
+    jasmine.clock.tick(15000);
+    jasmine.clock.uninstall();
+    atom.workspace.destroyActivePaneItem();
   });
 
   it('checks a file with syntax error and reports the correct message', async () => {
