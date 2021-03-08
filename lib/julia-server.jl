@@ -146,13 +146,53 @@ end
 
 function exit_if_atom_dies()
 
+    HANDLE = Ptr{Cvoid}
+    DWORD = UInt32
+    BOOL = Cint
+
+    PROCESS_QUERY_INFORMATION = 0x0400
+    ERROR_INVALID_PARAMETER = 0x57
+    STILL_ACTIVE = 259
+
+    function CloseHandle(handle)
+        Base.windowserror(:CloseHandle, 0 == ccall(:CloseHandle, stdcall, Cint, (HANDLE,), handle))
+        nothing
+    end
+
+    function OpenProcess(id::Integer, rights = PROCESS_QUERY_INFORMATION)
+        proc = ccall((:OpenProcess, "kernel32"), stdcall, HANDLE, (DWORD, BOOL, DWORD), rights, false, id)
+        Base.windowserror(:OpenProcess, proc == C_NULL)
+        proc
+    end
+
     while true
+
         if !Sys.iswindows()
+
             if ccall(:kill, Int32, (Int32, Int32), atom_pid, 0) != 0
                 exit()
             end
+
         else
-            # need to find a way to test pids on Windows ...
+            # an Absolutely Ridiculous Difference ...
+
+            hProcess = try OpenProcess(atom_pid)
+            catch err
+                if err isa SystemError && err.extrainfo.errnum == ERROR_INVALID_PARAMETER
+                    exit()
+                end
+            end
+
+            exitCode = Ref{DWORD}()
+
+            if ccall(:GetExitCodeProcess, stdcall, BOOL, (HANDLE, Ref{DWORD}), hProcess, exitCode) != 0
+                CloseHandle(hProcess)
+                if exitCode[] != STILL_ACTIVE
+                    exit()
+                end
+            else
+                CloseHandle(hProcess)
+            end
 
         end
         sleep(5)

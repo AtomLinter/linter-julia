@@ -24,7 +24,6 @@ This is a fork that replaces Lint.jl with StaticLint.jl from the Julia VSCode pl
 * The environment for each file is guessed from its path. If this fails, Julia's default environment is assumed.
 * The symbols are rebuilt if the modification time of the Project.toml or the Manifest.toml files change, for example,
 you add, remove or update packages. Linting is not available during this rebuild.
-* It works on Windows, but the Julia server does not shuts down on its own there (yet).
 
 ## Internals
 
@@ -34,7 +33,7 @@ Guessing the environment works by walking upwards in the path and looking for Pr
 environment is assumed. The project's root file is then looked for at the canonical X/src/X.jl etc. locations.
 
 I know nothing of Atom development or js, so the changes are likely messy there, please revise. Atom seems to be
-unable to shut down the server process, so the server exits by polling Atom's PID right now. This does not work on Windows yet.
+unable to shut down the server process, so the server exits by polling Atom's PID right now.
 
 ## Installation
 
