@@ -19,9 +19,9 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
     // try to avoid initial symbol step empty message
     await atom.packages.activatePackage('linter-julia');
     await atom.workspace.open(badFile);
-    jasmine.clock.install();
-    jasmine.clock.tick(15000);
-    jasmine.clock.uninstall();
+    jasmine.clock().install();
+    jasmine.clock().tick(15000);
+    jasmine.clock().uninstall();
     atom.workspace.destroyActivePaneItem();
   });
 
