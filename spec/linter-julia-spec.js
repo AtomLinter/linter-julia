@@ -16,17 +16,14 @@ jasmine.getEnv().defaultTimeoutInterval = 180 * 1000;
 
 describe('The Julia StaticLint.jl provider for Linter', () => {
   beforeEach(async () => {
-    // try to avoid initial symbol step empty message
-    await atom.packages.activatePackage('linter-julia');
-    await atom.workspace.open(badFile);
-    jasmine.clock().install();
-    jasmine.clock().tick(15000);
-    jasmine.clock().uninstall();
     atom.workspace.destroyActivePaneItem();
+    await atom.packages.activatePackage('linter-julia');
   });
 
   it('checks a file with syntax error and reports the correct message', async () => {
     const excerpt = 'Missing reference';
+    await atom.workspace.open(badFile);
+    await wait(15000);
     const editor = await atom.workspace.open(badFile);
     const messages = await lint(editor);
 
@@ -38,6 +35,8 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
   });
 
   it('finds nothing wrong with a valid file', async () => {
+    await atom.workspace.open(goodFile);
+    await wait(15000);
     const editor = await atom.workspace.open(goodFile);
     const messages = await lint(editor);
     expect(messages.length).toBe(0);
