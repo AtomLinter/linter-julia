@@ -22,8 +22,9 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
 
   it('checks a file with syntax error and reports the correct message', async () => {
     const excerpt = 'Missing reference';
+    // very first call - it needs to install packages plus build the server
     await atom.workspace.open(badFile);
-    await wait(15000);
+    await wait(300000);
     const editor = await atom.workspace.open(badFile);
     const messages = await lint(editor);
 
@@ -35,8 +36,6 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
   });
 
   it('finds nothing wrong with a valid file', async () => {
-    await atom.workspace.open(goodFile);
-    await wait(15000);
     const editor = await atom.workspace.open(goodFile);
     const messages = await lint(editor);
     expect(messages.length).toBe(0);
