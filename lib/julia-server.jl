@@ -327,9 +327,9 @@ function convertmsgtojson(msgs, code)
 
         # determine line and column from the file
         @assert msg.startpos <= msg.endpos
-        if msg.endpos > length(code)
-            @warn "endpos $(msg.endpos) is higher than code length $(length(code))"
-            msg.endpos = length(code)
+        if msg.endpos > lastindex(code)
+            @warn "endpos $(msg.endpos) is higher than code length $(lastindex(code))"
+            msg.endpos = lastindex(code)
         end
         endpos = get_last_charpos(code, msg.endpos)
         startline, startcolumn = find_line_column_string(code, msg.startpos)
