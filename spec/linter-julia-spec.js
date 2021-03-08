@@ -20,6 +20,13 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
     await atom.packages.activatePackage('linter-julia');
   });
 
+  // avoid first pass empty messages by linting any files in the environment, then
+  // waiting for the symbols to build
+  beforeAll(function (done) {
+    await atom.workspace.open(badFile);
+    setTimeout(done, 15000);
+  });
+
   it('checks a file with syntax error and reports the correct message', async () => {
     const excerpt = 'Missing reference';
     const editor = await atom.workspace.open(badFile);

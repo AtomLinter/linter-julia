@@ -490,9 +490,7 @@ try
     # this is looping until Atom dies
     while true
         conn = accept(server)
-        # there isn't too much point in @spawn this: only the server generation is slow, and that is MT anyway
-        # you would also need to add more threads that are not going do too much all of the time
-        # but you may get weird race conditions
+        # the pipe is fifo anyway and cannot deal with multiple connections
         @async handle_connection(conn)
     end
 
