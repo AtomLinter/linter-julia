@@ -1,35 +1,51 @@
 # linter-julia
 
-:warning: This linter currently uses the old Lint.jl which does not work on the latest versions of Julia :warning:
-
-
 This linter plugin for [AtomLinter](https://atomlinter.github.io/)
-provides an interface to [Lint.jl](https://github.com/tonyhffong/Lint.jl).
+provides an interface to [StaticLint.jl](https://github.com/julia-vscode/StaticLint.jl).
 It will be used with files that have the `Julia` syntax.
 
-![screenshot](https://raw.githubusercontent.com/AtomLinter/linter-julia/master/Screenshot.gif)
+This is a fork that replaces Lint.jl with StaticLint.jl from the Julia VSCode plugin.
+
+![screenshot](https://raw.githubusercontent.com/takbal/linter-julia/master/Screenshot.gif)
+
+## Developed on
+
+* julia-1.5.3
+* [linter-ui-default](https://atom.io/packages/linter-ui-default)
+* [linter](https://atom.io/packages/linter)
+* tested on Ubuntu 18.04 and Windows
+
+## Caveats
+
+* The server needs a minute to spin up, then also some time to parse new Julia environments that this Atom instance
+  have not seen before. A pop-up is shown when parsing a new environment starts (but not when it ends). After parsing finishes, you need to
+  edit or reopen those files that are already in the editor for linting to start. If the environment had been already parsed, linting new files is immediate.
+* The edited file has to be saved at least once for linting to start. This is by design of the linter package (https://github.com/steelbrain/linter/issues/1235)
+* The environment for each file is guessed from its path. If this fails, Julia's default environment is assumed.
+* The symbols are rebuilt if the modification time of the Project.toml or the Manifest.toml files change, for example,
+you add, remove or update packages. Linting is not available during this rebuild.
+
+## Internals
+
+The code generates its private shared environment at the Julia depot in 'environments/linter-julia'. It also places a logfile there.
+
+Guessing the environment works by walking upwards in the path and looking for Project.toml. If nothing found, the default
+environment is assumed. The project's root file is then looked for at the canonical X/src/X.jl etc. locations.
+
+I know nothing of Atom development or js, so the changes are likely messy there, please revise. Atom seems to be
+unable to shut down the server process, so the server exits by polling Atom's PID right now.
 
 ## Installation
 
-- Install the package through Atom's UI and install the package.
-
-You can also use the `apm` tool in the CLI:
+- Install the package through Atom's UI. You can also use the `apm` tool in the CLI:
 ```bash
-$ apm install linter-julia
+$ apm install takbal/linter-julia
 ```
 
-- You need to tell linter-julia where to find the julia executable
-(i.e. `/usr/bin/julia` or `C:\Julia-1.3.0-rc4\bin\julia.exe`). See Settings below.
+- You may need to tell linter-julia where to find the Julia executable
+(i.e. `/usr/bin/julia` or `C:\Julia-1.5.3\bin\julia.exe`). The default assumes 'julia' just works.
 
-- This package installs the master branch of Lint.jl automatically, to make it activated just restart Atom one more time! (two time total)
-
-
-- Note: if you have't installed [Juno](http://junolab.org/), and [Julia]( http://julialang.org/downloads/)
-
-- Note: If after two restarts the linter didn't work, add the Lint.jl manually:
-```julia
-] add https://github.com/tonyhffong/Lint.jl
-```
+- Julia must have the General registry added.
 
 ## Settings
 
@@ -37,9 +53,8 @@ $ apm install linter-julia
 
 ## Features
 
-* By default linter-julia uses Juno's `julia`
-* You can give a path to the `julia` executable that you want to use for Linting
-* You can ignore the messages you don't need
+* You can ignore the messages you don't need in settings. Provide the codes with a comma separated list.
+  The codes can be found by expanding the hover of the error message if 'show error codes' is set.
 
 [Issues](https://github.com/AtomLinter/linter-julia/issues) and [pull requests]
 (https://github.com/AtomLinter/linter-julia/pulls) are welcome.
