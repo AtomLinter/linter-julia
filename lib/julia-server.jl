@@ -301,7 +301,7 @@ function generate_messages( fname::AbstractString, code::AbstractString, env::Ab
                 code = "E000"
                 severity = "error"
             else
-                msg = "Missing reference"
+                msg = "Missing reference: '$(CSTParser.valof(x))'"
                 code = "W000"
                 severity = "warning"
             end

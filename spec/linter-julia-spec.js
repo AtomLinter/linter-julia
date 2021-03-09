@@ -21,7 +21,7 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
   });
 
   it('checks a file with syntax error and reports the correct message', async () => {
-    const excerpt = 'Missing reference';
+    const excerpt = 'Missing reference: \'question\'';
     // very first call - it needs to install packages plus build the server
     const editorbootstrap = await atom.workspace.open(badFile);
     await lint(editorbootstrap);
@@ -31,10 +31,10 @@ describe('The Julia StaticLint.jl provider for Linter', () => {
     const messages = await lint(editor);
 
     expect(messages.length).toBe(1);
-    expect(messages[0].severity).toBe('error');
+    expect(messages[0].severity).toBe('warning');
     expect(messages[0].excerpt).toBe(excerpt);
     expect(messages[0].location.file).toBe(badFile);
-    expect(messages[0].location.position).toEqual([[1, 11], [1, 18]]);
+    expect(messages[0].location.position).toEqual([[1, 11], [1, 19]]);
   });
 
   it('finds nothing wrong with a valid file', async () => {
