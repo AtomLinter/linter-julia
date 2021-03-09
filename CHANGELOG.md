@@ -1,3 +1,6 @@
+## 0.9
+* Rewrote for StaticLint.jl (#119)
+
 ## 0.8.2
 * Making it work again on Julia v.1 >
 
